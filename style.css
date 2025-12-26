@@ -22,12 +22,23 @@ h1 {
   padding: 12px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
   user-select: none;
+  position: relative;
 }
 
 .name {
   text-align: center;
   font-weight: bold;
   margin-bottom: 8px;
+}
+
+.edit-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 16px;
 }
 
 .sho {
@@ -48,7 +59,6 @@ h1 {
   background: #222;
 }
 
-/* 正の字：縦4本＋斜め */
 .sho-group .v1 { left: 2px; top: 0; width: 3px; height: 26px; }
 .sho-group .v2 { left: 8px; top: 0; width: 3px; height: 26px; }
 .sho-group .v3 { left: 14px; top: 0; width: 3px; height: 26px; }
@@ -60,4 +70,35 @@ h1 {
   color: #666;
   text-align: center;
   margin-top: 6px;
+}
+
+/* モーダル */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 16px;
+  border-radius: 12px;
+  width: 260px;
+}
+
+.modal-content input {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.hidden {
+  display: none;
 }
