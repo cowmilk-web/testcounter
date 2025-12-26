@@ -125,3 +125,50 @@ h1 {
   stroke-width: 6;
   stroke-linecap: round;
 }
+
+/* ===== テーマ変数 ===== */
+:root {
+  --bg: #f3f1ec;
+  --card: #ffffff;
+  --text: #222;
+  --border: #ddd;
+}
+
+[data-theme="dark"] {
+  --bg: #121212;
+  --card: #1e1e1e;
+  --text: #f1f1f1;
+  --border: #333;
+}
+
+/* ===== 全体反映 ===== */
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+}
+
+/* 正の字 */
+.sho-svg line {
+  stroke: var(--text);
+}
+
+/* ===== テーマ切替ボタン ===== */
+.theme-toggle {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  font-size: 20px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: none;
+  background: var(--card);
+  color: var(--text);
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,.2);
+  z-index: 1000;
+}
