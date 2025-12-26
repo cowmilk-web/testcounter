@@ -113,3 +113,15 @@ h1 {
 .hidden {
   display: none;
 }
+
+/* 正の字 SVG */
+.sho-svg {
+  width: 28px;
+  height: 28px;
+}
+
+.sho-svg line {
+  stroke: #222;
+  stroke-width: 6;
+  stroke-linecap: round;
+}
