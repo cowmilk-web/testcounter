@@ -1,224 +1,31 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#2b2b2b">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<title>正の字カウンター</title>
+  <title>正の字カウンター</title>
 
-<style>
-body {
-  margin: 0;
-  background: #f3f1ec;
-  font-family: "Hiragino Maru Gothic ProN", sans-serif;
-}
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#2b2b2b" />
 
-.app {
-  padding: 16px;
-}
-
-h1 {
-  margin-top: 0;
-  font-size: 22px;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-  gap: 12px;
-}
-
-.card {
-  background: #fffef8;
-  border-radius: 14px;
-  padding: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,.08);
-  user-select: none;
-}
-
-.header {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 6px;
-}
-
-.icon {
-  font-size: 26px;
-}
-
-.name {
-  font-weight: bold;
-}
-
-.counter {
-  margin-top: 8px;
-}
-
-.counter-label {
-  font-size: 12px;
-  opacity: .7;
-  margin-bottom: 2px;
-}
-
-.sho-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-}
-
-/* 正の字（手書き風） */
-.sho {
-  position: relative;
-  width: 42px;
-  height: 52px;
-}
-
-.line {
-  position: absolute;
-  background: #2b2b2b;
-  border-radius: 3px;
-}
-
-.v1,.v2,.v3,.v4 {
-  width: 5px;
-  height: 46px;
-  top: 2px;
-  transform: rotate(-1deg);
-}
-
-.v1 { left: 0; }
-.v2 { left: 10px; }
-.v3 { left: 20px; }
-.v4 { left: 30px; }
-
-.slash {
-  width: 6px;
-  height: 58px;
-  left: 18px;
-  top: -6px;
-  transform: rotate(47deg);
-  opacity: .85;
-}
-
-/* モーダル */
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.hidden { display: none; }
-
-.modal-content {
-  background: #fffef8;
-  padding: 16px;
-  border-radius: 14px;
-  width: 90%;
-  max-width: 320px;
-}
-
-.modal-content h2 {
-  margin-top: 0;
-}
-
-.modal-content label {
-  font-size: 12px;
-  display: block;
-  margin-top: 8px;
-}
-
-.modal-content input {
-  width: 100%;
-  padding: 6px;
-  font-size: 14px;
-}
-
-.modal-content button {
-  margin-top: 12px;
-  width: 100%;
-  padding: 8px;
-  font-size: 14px;
-}
-</style>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-<div class="app">
+
   <h1>正の字カウンター</h1>
-  <div id="list" class="grid"></div>
-</div>
 
-<!-- 編集モーダル -->
-<div id="modal" class="modal hidden">
-  <div class="modal-content">
-    <h2>編集</h2>
+  <div id="counter-container"></div>
 
-    <label>名前</label>
-    <input id="editName">
+  <script src="script.js"></script>
 
-    <label>アイコン（絵文字OK）</label>
-    <input id="editIcon">
+  <!-- Service Worker（安全版） -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("./sw.js");
+    }
+  </script>
 
-    <label>カウンター1名</label>
-    <input id="editC1">
-
-    <label>カウンター2名</label>
-    <input id="editC2">
-
-    <button id="saveBtn">保存</button>
-  </div>
-</div>
-
-<script>
-const MAX = 20;
-let users = JSON.parse(localStorage.getItem("users")) ||
-  Array.from({length: MAX}, (_, i) => ({
-    id: i,
-    name: `人${i+1}`,
-    icon: "🙂",
-    counters: [
-      { id: 0, label: "カウンター1", count: 0 }
-    ]
-  }));
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("sw.js");
-}
-
-
-const list = document.getElementById("list");
-const modal = document.getElementById("modal");
-const editName = document.getElementById("editName");
-const editIcon = document.getElementById("editIcon");
-const editC1 = document.getElementById("editC1");
-const editC2 = document.getElementById("editC2");
-let editingUser = null;
-
-function save() {
-  localStorage.setItem("users", JSON.stringify(users));
-}
-
-function renderSho(count, container) {
-  container.innerHTML = "";
-  const full = Math.floor(count / 5);
-  const rest = count % 5;
-
-  for (let i = 0; i < full; i++) {
-    const sho = document.createElement("div");
-    sho.className = "sho";
-    sho.innerHTML = `
-      <span class="line v1"></span>
-      <span class="line v2"></span>
-      <span class="line v3"></span>
-      <span class="line v4"></span>
-      <span class="line slash"></span>`;
-    container.appendChild(sho);
-  }
-
-  if (rest > 0) {
-    const bars = document.createElement("div");
-    bars.style.display = "
+</body>
+</html>
