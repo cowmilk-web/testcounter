@@ -1,11 +1,17 @@
-const MAX_PEOPLE = 20;
 const container = document.getElementById("counter-container");
 
 let people = JSON.parse(localStorage.getItem("people")) || [];
 
+// 初期データ
 if (people.length === 0) {
   for (let i = 0; i < 5; i++) {
-    people.push({ name: `人${i + 1}`, count: 0 });
+    people.push({
+      name: `人${i + 1}`,
+      icon: "👤",
+      counters: [
+        { name: "カウンター", count: 0 }
+      ]
+    });
   }
 }
 
@@ -48,6 +54,8 @@ function span(cls) {
   return s;
 }
 
+let editingIndex = null;
+
 function render() {
   container.innerHTML = "";
 
@@ -57,9 +65,17 @@ function render() {
 
     const name = document.createElement("div");
     name.className = "name";
-    name.textContent = p.name;
+    name.textContent = `${p.icon} ${p.name}`;
 
-    const sho = createSho(p.count);
+    const editBtn = document.createElement("button");
+    editBtn.textContent = "✏️";
+    editBtn.className = "edit-btn";
+    editBtn.onclick = e => {
+      e.stopPropagation();
+      openEditModal(index);
+    };
+
+    const sho = createSho(p.counters[0].count);
 
     const hint = document.createElement("div");
     hint.className = "hint";
@@ -68,7 +84,7 @@ function render() {
     let pressTimer;
 
     card.addEventListener("click", () => {
-      p.count++;
+      p.counters[0].count++;
       save();
       render();
     });
@@ -76,7 +92,7 @@ function render() {
     card.addEventListener("touchstart", () => {
       pressTimer = setTimeout(() => {
         if (confirm("リセットしますか？")) {
-          p.count = 0;
+          p.counters[0].count = 0;
           save();
           render();
         }
@@ -87,12 +103,37 @@ function render() {
       clearTimeout(pressTimer);
     });
 
+    card.appendChild(editBtn);
     card.appendChild(name);
     card.appendChild(sho);
     card.appendChild(hint);
 
     container.appendChild(card);
   });
+}
+
+function openEditModal(index) {
+  editingIndex = index;
+  document.getElementById("edit-name").value = people[index].name;
+  document.getElementById("edit-icon").value = people[index].icon;
+  document.getElementById("edit-modal").classList.remove("hidden");
+}
+
+document.getElementById("save-edit").onclick = () => {
+  people[editingIndex].name =
+    document.getElementById("edit-name").value || "名前";
+  people[editingIndex].icon =
+    document.getElementById("edit-icon").value || "👤";
+
+  save();
+  render();
+  closeModal();
+};
+
+document.getElementById("cancel-edit").onclick = closeModal;
+
+function closeModal() {
+  document.getElementById("edit-modal").classList.add("hidden");
 }
 
 render();
