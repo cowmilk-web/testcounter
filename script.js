@@ -171,3 +171,24 @@ function closeModal() {
 }
 
 render();
+
+/* ===== ダークモード ===== */
+const toggleBtn = document.getElementById("theme-toggle");
+const savedTheme = localStorage.getItem("theme");
+
+// 初期テーマ
+if (savedTheme) {
+  document.documentElement.dataset.theme = savedTheme;
+  toggleBtn.textContent = savedTheme === "dark" ? "☀️" : "🌙";
+} else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+  document.documentElement.dataset.theme = "dark";
+  toggleBtn.textContent = "☀️";
+}
+
+toggleBtn.onclick = () => {
+  const isDark = document.documentElement.dataset.theme === "dark";
+  const next = isDark ? "light" : "dark";
+  document.documentElement.dataset.theme = next;
+  localStorage.setItem("theme", next);
+  toggleBtn.textContent = next === "dark" ? "☀️" : "🌙";
+};
