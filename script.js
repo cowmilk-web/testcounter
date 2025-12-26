@@ -18,34 +18,19 @@ function save() {
 }
 
 /* ===== 正の字 SVG ===== */
-function createSho(count) {
-  const wrap = document.createElement("div");
-  wrap.className = "sho";
-
-  const full = Math.floor(count / 5);
-  const rest = count % 5;
-
-  for (let i = 0; i < full; i++) {
-    wrap.appendChild(createShoSVG(5));
-  }
-  if (rest > 0) {
-    wrap.appendChild(createShoSVG(rest));
-  }
-  return wrap;
-}
-
 function createShoSVG(strokes) {
   const svgNS = "http://www.w3.org/2000/svg";
   const svg = document.createElementNS(svgNS, "svg");
   svg.setAttribute("viewBox", "0 0 100 100");
   svg.classList.add("sho-svg");
 
+  // 正しい「正」の形
   const lines = [
-    [10, 20, 90, 20], // 一画目
-    [30, 20, 30, 80], // 二画目
-    [70, 20, 70, 80], // 三画目
-    [10, 50, 90, 50], // 四画目
-    [20, 80, 80, 80]  // 五画目
+    [10, 20, 90, 20],  // ① 上横線（長）
+    [50, 20, 50, 70],  // ② 縦線
+    [30, 45, 70, 45],  // ③ 中横線（短）
+    [15, 80, 85, 80],  // ④ 下横線（長）
+    [50, 70, 50, 90]   // ⑤ 縦線の延長（正の字カウント用）
   ];
 
   for (let i = 0; i < strokes; i++) {
@@ -60,6 +45,7 @@ function createShoSVG(strokes) {
 
   return svg;
 }
+
 
 let editingIndex = null;
 
