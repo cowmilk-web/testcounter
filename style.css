@@ -1,0 +1,63 @@
+body {
+  font-family: "Hiragino Maru Gothic ProN", "Yu Gothic", sans-serif;
+  background: #f3f1ec;
+  margin: 0;
+  padding: 16px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+#counter-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  user-select: none;
+}
+
+.name {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.sho {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+}
+
+.sho-group {
+  width: 26px;
+  height: 26px;
+  position: relative;
+}
+
+.sho-group span {
+  position: absolute;
+  background: #222;
+}
+
+/* 正の字：縦4本＋斜め */
+.sho-group .v1 { left: 2px; top: 0; width: 3px; height: 26px; }
+.sho-group .v2 { left: 8px; top: 0; width: 3px; height: 26px; }
+.sho-group .v3 { left: 14px; top: 0; width: 3px; height: 26px; }
+.sho-group .v4 { left: 20px; top: 0; width: 3px; height: 26px; }
+.sho-group .d  { left: 0; top: 22px; width: 26px; height: 3px; transform: rotate(-45deg); }
+
+.hint {
+  font-size: 12px;
+  color: #666;
+  text-align: center;
+  margin-top: 6px;
+}
