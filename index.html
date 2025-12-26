@@ -6,7 +6,6 @@
 
   <title>正の字カウンター</title>
 
-  <!-- PWA -->
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#2b2b2b" />
 
@@ -18,14 +17,33 @@
 
   <div id="counter-container"></div>
 
-  <script src="script.js"></script>
+  <!-- 編集モーダル -->
+  <div id="edit-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2>編集</h2>
 
-  <!-- Service Worker（安全版） -->
+      <label>
+        名前
+        <input id="edit-name" />
+      </label>
+
+      <label>
+        アイコン（絵文字）
+        <input id="edit-icon" placeholder="👤" />
+      </label>
+
+      <div class="modal-buttons">
+        <button id="save-edit">保存</button>
+        <button id="cancel-edit">キャンセル</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
   <script>
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("./sw.js");
     }
   </script>
-
 </body>
 </html>
