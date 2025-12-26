@@ -8,9 +8,7 @@ if (people.length === 0) {
     people.push({
       name: `人${i + 1}`,
       icon: "👤",
-      counters: [
-        { name: "カウンターA", count: 0 }
-      ]
+      counters: [{ name: "カウンターA", count: 0 }]
     });
   }
 }
@@ -19,7 +17,7 @@ function save() {
   localStorage.setItem("people", JSON.stringify(people));
 }
 
-/* 正の字描画 */
+/* ===== 正の字 SVG ===== */
 function createSho(count) {
   const wrap = document.createElement("div");
   wrap.className = "sho";
@@ -27,32 +25,45 @@ function createSho(count) {
   const full = Math.floor(count / 5);
   const rest = count % 5;
 
-  for (let i = 0; i < full; i++) wrap.appendChild(makeGroup(5));
-  if (rest > 0) wrap.appendChild(makeGroup(rest));
-
+  for (let i = 0; i < full; i++) {
+    wrap.appendChild(createShoSVG(5));
+  }
+  if (rest > 0) {
+    wrap.appendChild(createShoSVG(rest));
+  }
   return wrap;
 }
 
-function makeGroup(num) {
-  const g = document.createElement("div");
-  g.className = "sho-group";
-  if (num >= 1) g.appendChild(span("v1"));
-  if (num >= 2) g.appendChild(span("v2"));
-  if (num >= 3) g.appendChild(span("v3"));
-  if (num >= 4) g.appendChild(span("v4"));
-  if (num === 5) g.appendChild(span("d"));
-  return g;
-}
+function createShoSVG(strokes) {
+  const svgNS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(svgNS, "svg");
+  svg.setAttribute("viewBox", "0 0 100 100");
+  svg.classList.add("sho-svg");
 
-function span(cls) {
-  const s = document.createElement("span");
-  s.className = cls;
-  return s;
+  const lines = [
+    [10, 20, 90, 20], // 一画目
+    [30, 20, 30, 80], // 二画目
+    [70, 20, 70, 80], // 三画目
+    [10, 50, 90, 50], // 四画目
+    [20, 80, 80, 80]  // 五画目
+  ];
+
+  for (let i = 0; i < strokes; i++) {
+    const [x1, y1, x2, y2] = lines[i];
+    const line = document.createElementNS(svgNS, "line");
+    line.setAttribute("x1", x1);
+    line.setAttribute("y1", y1);
+    line.setAttribute("x2", x2);
+    line.setAttribute("y2", y2);
+    svg.appendChild(line);
+  }
+
+  return svg;
 }
 
 let editingIndex = null;
 
-/* 描画 */
+/* ===== 描画 ===== */
 function render() {
   container.innerHTML = "";
 
@@ -113,7 +124,7 @@ function render() {
   });
 }
 
-/* 編集モーダル */
+/* ===== 編集モーダル ===== */
 function openEditModal(index) {
   editingIndex = index;
   const p = people[index];
